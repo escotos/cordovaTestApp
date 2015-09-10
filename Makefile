@@ -1,5 +1,7 @@
-all: clean add
-all_droid: clean add run_droid
+all:
+	make clean && make add
+all_droid: 
+	make clean && make add && make run_droid
 list:
 	cordova plugin list
 add:

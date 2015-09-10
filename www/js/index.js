@@ -26,12 +26,22 @@ var app = {
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
+        // document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.getElementById("form_submit").addEventListener('click', this.sendRequest, false);
     },
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
+    sendRequest: function() {
+        var success = function(response) { console.log("javascript-MFPResourceRequest From index.js = Success: " + JSON.stringify(response.getAllHeaders())); };
+        var failure = function(response) { console.error("javascript-MFPResourceRequest From index.js = Failure: " + JSON.stringify(response.getAllHeaders())); };
+        var method = document.getElementById("form_method")
+        var myrequest = new MFPResourceRequest(document.getElementById("form_url").value, method.options[method.selectedIndex].value);
+
+        myrequest.send(success, failure);
+        alert("Request Sent");
+    },
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
     },

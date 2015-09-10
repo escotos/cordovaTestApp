@@ -37,12 +37,23 @@
     </head>
     <body>
         <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
+            <h1>
+                Type desired URL:
+                <br />
+                    <input id="form_url" type="text" name="url" value="http://www.google.com" />
+                <br />
+                    <select id="form_method">
+                          <option value="GET">Get</option>
+                          <option value="POST">Post</option>
+                    </select>
+                    <input id="form_submit" type="submit" />
+            </h1>
+<!--             <div id="deviceready" class="blink">
                 <p class="event listening">Connecting to Device</p>
                 <p class="event received">Device is Ready</p>
-            </div>
+            </div> -->
         </div>
+
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
     </body>
