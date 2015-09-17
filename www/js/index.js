@@ -60,17 +60,26 @@ sendRequest: function() {
     myrequest.send(success, failure);
     
     //POST1
-    var url1 = "http://jsonplaceholder.typicode.com/posts"
-    var requestPost1 = new MFPResourceRequest(url1, MFPResourceRequest.POST, 30000);
-    requestPost1.send("sending some txt", success, failure);
-    
+    var url = "http://jsonplaceholder.typicode.com/posts"
+    var request = new MFPResourceRequest(url, MFPResourceRequest.POST, 30000);
+    request.send("sending some txt", success, failure);
+  
     //POST2
-    var url2 = "http://jsonplaceholder.typicode.com/posts"
-    var requestPost2 = new MFPResourceRequest(url, MFPResourceRequest.POST, 30000);
-    requestPost2.addHeader("Content-Type","application/json");
-    requestPost2.send({
-        title: 'foo',
-        body: 'bar',
+    url = "http://jsonplaceholder.typicode.com/posts"
+    request = new MFPResourceRequest(url, MFPResourceRequest.POST, 30000);
+    request.send({
+                 title: 'foo',
+                 body: 'bar',
+                 userId: 1
+                 }, success, failure);
+    
+    //PUT
+    url = "http://jsonplaceholder.typicode.com/posts/1"
+    request = new MFPResourceRequest(url, MFPResourceRequest.PUT, 30000);
+    request.addHeader("Content-Type","application/json");
+    request.send({
+        title: 'Larry',
+        body: 'Nickerson',
         userId: 1
     }, success, failure);
     
