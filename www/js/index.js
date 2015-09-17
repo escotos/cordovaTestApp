@@ -34,9 +34,25 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     sendRequest: function() {
-        var success = function(response) { console.log("javascript-MFPResourceRequest From index.js = Success: " + JSON.stringify(response.getAllHeaders())); };
-        var failure = function(response) { console.error("javascript-MFPResourceRequest From index.js = Failure: " + JSON.stringify(response.getAllHeaders())); };
-        var method = document.getElementById("form_method")
+        var success = function(response) {
+            console.log("javascript-MFPResourceRequest index.js - Success");
+            console.log("javascript-MFPResourceRequest index.js - response.httpStatus: " + response.httpStatus);
+            // console.log("javascript-MFPResourceRequest index.js - response.responseText: " + response.responseText);
+            console.log("javascript-MFPResourceRequest index.js - response.responseJSON: " + response.responseJSON);
+            console.log("javascript-MFPResourceRequest index.js - response.headers: "+ JSON.stringify(response.getAllHeaders()));
+            console.log("javascript-MFPResourceRequest index.js - response.errorCode: " + response.errorCode);
+            console.log("javascript-MFPResourceRequest index.js - response.errorDescription: " + response.errorDescription);
+        };
+        var failure = function(response) {
+            console.error("javascript-MFPResourceRequest index.js = Failure");
+            console.error("javascript-MFPResourceRequest index.js - response.httpStatus: " + response.httpStatus);
+            // console.error("javascript-MFPResourceRequest index.js - response.responseText: " + response.responseText);
+            console.error("javascript-MFPResourceRequest index.js - response.responseJSON: " + response.responseJSON);
+            console.error("javascript-MFPResourceRequest index.js - response.headers: "+ response.getAllHeaders());
+            console.error("javascript-MFPResourceRequest index.js - response.errorCode: " + response.errorCode);
+            console.error("javascript-MFPResourceRequest index.js - response.errorDescription: " + response.errorDescription);
+        };
+        var method = document.getElementById("form_method");
         var myrequest = new MFPResourceRequest(document.getElementById("form_url").value, method.options[method.selectedIndex].value);
 
         myrequest.send(success, failure);
