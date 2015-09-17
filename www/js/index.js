@@ -18,44 +18,78 @@
  */
 var app = {
     // Application Constructor
-    initialize: function() {
-        this.bindEvents();
-    },
+initialize: function() {
+    this.bindEvents();
+},
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
-        // document.addEventListener('deviceready', this.onDeviceReady, false);
-        document.getElementById("form_submit").addEventListener('click', this.sendRequest, false);
-    },
+bindEvents: function() {
+    // document.addEventListener('deviceready', this.onDeviceReady, false);
+    document.getElementById("form_submit").addEventListener('click', this.sendRequest, false);
+},
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
-    sendRequest: function() {
-        var success = function(response) { console.log("javascript-MFPResourceRequest From index.js = Success: " + JSON.stringify(response.getAllHeaders())); };
-        var failure = function(response) { console.error("javascript-MFPResourceRequest From index.js = Failure: " + JSON.stringify(response.getAllHeaders())); };
-        var method = document.getElementById("form_method")
-        var myrequest = new MFPResourceRequest(document.getElementById("form_url").value, method.options[method.selectedIndex].value);
-
-        myrequest.send(success, failure);
-        alert("Request Sent");
-    },
-    onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-    },
+sendRequest: function() {
+    var success = function(response) {
+        console.log("javascript-MFPResourceRequest From index.js = Success: " + JSON.stringify(response.getAllHeaders()));
+    };
+    var failure = function(response) {
+        console.error("javascript-MFPResourceRequest From index.js = Failure: " + JSON.stringify(response.getAllHeaders()));
+    };
+    
+    
+    
+    // TRY THE REQUEST
+    var method = document.getElementById("form_method")
+    var myrequest = new MFPResourceRequest(document.getElementById("form_url").value, method.options[method.selectedIndex].value);
+    
+    myrequest.setQueryParameters({
+                                 parm1: "value1",
+                                 parm2: "value2"
+                                 });
+    myrequest.setHeader("Accept", "text/html");
+    myrequest.setHeader("Larry Header", "larry header value");
+    
+    //myrequest.sendFormParameters({formParm1:"formParmValue1",formParm2:"formParmValue2"},success,failure);
+    
+    myrequest.send(success, failure);
+    myrequest.send("sending some txt", success, failure);
+    myrequest.send({
+                   name: "Larry",
+                   hobby: "Salsa"
+                   }, success, failure);
+    
+    alert("Request Sent");
+    
+    // TRY THE CLIENT
+    MFPClient.initialize("http:www.google.com", "some Guid");
+    var version = MFPClient.version();
+    var route = MFPClient.getBluemixAppRoute(function(route) {
+                                             console.error("javascript-MFPResourceRequest From index.js = ROUTE: " + route)
+                                             });
+    var guid = MFPClient.getBluemixAppGUID(function(guid) {
+                                           console.error("javascript-MFPResourceRequest From index.js = GUID: " + guid)
+                                           });
+},
+onDeviceReady: function() {
+    app.receivedEvent('deviceready');
+},
     // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
-    }
+receivedEvent: function(id) {
+    var parentElement = document.getElementById(id);
+    var listeningElement = parentElement.querySelector('.listening');
+    var receivedElement = parentElement.querySelector('.received');
+    
+    listeningElement.setAttribute('style', 'display:none;');
+    receivedElement.setAttribute('style', 'display:block;');
+    
+    console.log('Received Event: ' + id);
+}
 };
 
 app.initialize();
+
