@@ -71,8 +71,8 @@ sendRequest: function() {
     //POST2
     url = "http://jsonplaceholder.typicode.com/posts"
     request = new MFPResourceRequest(url, MFPResourceRequest.POST, 30000);
-    request.addHeader("Content-Type","application/json");
-    request.addHeader("LarryHeader","POST JSON");
+    request.setHeader("Content-Type","application/json");
+    request.setHeader("LarryHeader","POST JSON");
     request.send({
                  title: 'foo',
                  body: 'bar',
@@ -82,8 +82,8 @@ sendRequest: function() {
     //PUT
     url = "http://jsonplaceholder.typicode.com/posts/1"
     request = new MFPResourceRequest(url, MFPResourceRequest.PUT, 30000);
-    request.addHeader("Content-Type","application/json");
-    request.addHeader("LarryHeader","PUT");
+    request.setHeader("Content-Type","application/json");
+    request.setHeader("LarryHeader","PUT");
     request.send({
         title: 'Larry',
         body: 'Nickerson',
@@ -93,8 +93,8 @@ sendRequest: function() {
     // GET
     url = "http://jsonplaceholder.typicode.com/posts"
     request = new MFPResourceRequest(url, MFPResourceRequest.GET, 30000);
-    request.addHeader("Accept","application/json");
-    request.addHeader("LarryHeader","GET");
+    request.setHeader("Accept","application/json");
+    request.setHeader("LarryHeader","GET");
     request.send( success, failure);
 
     alert("Request Sent");
