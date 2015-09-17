@@ -56,12 +56,23 @@ sendRequest: function() {
     
     //myrequest.sendFormParameters({formParm1:"formParmValue1",formParm2:"formParmValue2"},success,failure);
     
+    //GET
     myrequest.send(success, failure);
-    myrequest.send("sending some txt", success, failure);
-    myrequest.send({
-                   name: "Larry",
-                   hobby: "Salsa"
-                   }, success, failure);
+    
+    //POST1
+    var url1 = "http://jsonplaceholder.typicode.com/posts"
+    var requestPost1 = new MFPRequest(url1, MFPResourceRequest.POST, 30000);
+    requestPost1.send("sending some txt", success, failure);
+    
+    //POST2
+    var url2 = "http://jsonplaceholder.typicode.com/posts"
+    var requestPost2 = new MFPRequest(url, MFPResourceRequest.POST, 30000);
+    requestPost2.addHeader("Content-Type","application/json");
+    requestPost2.send({
+        title: 'foo',
+        body: 'bar',
+        userId: 1
+    }, success, failure);
     
     alert("Request Sent");
     
@@ -69,10 +80,10 @@ sendRequest: function() {
     MFPClient.initialize("http:www.google.com", "some Guid");
     var version = MFPClient.version();
     var route = MFPClient.getBluemixAppRoute(function(route) {
-                                             console.error("javascript-MFPResourceRequest From index.js = ROUTE: " + route)
+                                             console.error("javascript-MFPClient From index.js = ROUTE: " + route)
                                              });
     var guid = MFPClient.getBluemixAppGUID(function(guid) {
-                                           console.error("javascript-MFPResourceRequest From index.js = GUID: " + guid)
+                                           console.error("javascript-MFPClient From index.js = GUID: " + guid)
                                            });
 },
 onDeviceReady: function() {
