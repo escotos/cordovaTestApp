@@ -61,12 +61,12 @@ sendRequest: function() {
     
     //POST1
     var url1 = "http://jsonplaceholder.typicode.com/posts"
-    var requestPost1 = new MFPRequest(url1, MFPResourceRequest.POST, 30000);
+    var requestPost1 = new MFPResourceRequest(url1, MFPResourceRequest.POST, 30000);
     requestPost1.send("sending some txt", success, failure);
     
     //POST2
     var url2 = "http://jsonplaceholder.typicode.com/posts"
-    var requestPost2 = new MFPRequest(url, MFPResourceRequest.POST, 30000);
+    var requestPost2 = new MFPResourceRequest(url, MFPResourceRequest.POST, 30000);
     requestPost2.addHeader("Content-Type","application/json");
     requestPost2.send({
         title: 'foo',
