@@ -58,15 +58,21 @@ sendRequest: function() {
     
     //GET
     myrequest.send(success, failure);
-    
+
+
+
     //POST1
     var url = "http://jsonplaceholder.typicode.com/posts"
     var request = new MFPResourceRequest(url, MFPResourceRequest.POST, 30000);
+    request.addHeader("Content-Type","text/html");
+    request.addHeader("LarryHeader","POST TEXT");
     request.send("sending some txt", success, failure);
   
     //POST2
     url = "http://jsonplaceholder.typicode.com/posts"
     request = new MFPResourceRequest(url, MFPResourceRequest.POST, 30000);
+    request.addHeader("Content-Type","application/json");
+    request.addHeader("LarryHeader","POST JSON");
     request.send({
                  title: 'foo',
                  body: 'bar',
@@ -77,12 +83,20 @@ sendRequest: function() {
     url = "http://jsonplaceholder.typicode.com/posts/1"
     request = new MFPResourceRequest(url, MFPResourceRequest.PUT, 30000);
     request.addHeader("Content-Type","application/json");
+    request.addHeader("LarryHeader","PUT");
     request.send({
         title: 'Larry',
         body: 'Nickerson',
         userId: 1
     }, success, failure);
-    
+
+    // GET
+    url = "http://jsonplaceholder.typicode.com/posts"
+    request = new MFPResourceRequest(url, MFPResourceRequest.GET, 30000);
+    request.addHeader("Accept","application/json");
+    request.addHeader("LarryHeader","GET");
+    request.send( success, failure);
+
     alert("Request Sent");
     
     // TRY THE CLIENT
