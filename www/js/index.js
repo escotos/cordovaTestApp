@@ -35,25 +35,25 @@ bindEvents: function() {
     // function, we must explicitly call 'app.receivedEvent(...);'
 sendRequest: function() {
     var success = function(response) {
-        console.log("javascript-MFPResourceRequest From index.js = Success: " + JSON.stringify(response));
+        console.log("javascript-MFPRequest From index.js = Success: " + JSON.stringify(response));
     };
     var failure = function(response) {
-        console.error("javascript-MFPResourceRequest From index.js = Failure: " + JSON.stringify(response));
+        console.error("javascript-MFPRequest From index.js = Failure: " + JSON.stringify(response));
     };
 
     // TRY THE CLIENT
-    MFPClient.initialize("http://jsonplaceholder.typicode.com", "some Guid");
+    BMSClient.initialize("http://jsonplaceholder.typicode.com", "some Guid");
 
-    var route = MFPClient.getBluemixAppRoute(function(route) {
-        console.error("javascript-MFPClient From index.js = ROUTE: " + route)
+    var route = BMSClient.getBluemixAppRoute(function(route) {
+        console.error("javascript-BMSClient From index.js = ROUTE: " + route)
     });
-    var guid = MFPClient.getBluemixAppGUID(function(guid) {
-        console.error("javascript-MFPClient From index.js = GUID: " + guid)
+    var guid = BMSClient.getBluemixAppGUID(function(guid) {
+        console.error("javascript-BMSClient From index.js = GUID: " + guid)
     });
     
     // TRY THE REQUEST
     var method = document.getElementById("form_method");
-    var myrequest = new MFPResourceRequest(document.getElementById("form_url").value, method.options[method.selectedIndex].value);
+    var myrequest = new MFPRequest(document.getElementById("form_url").value, method.options[method.selectedIndex].value);
     
     myrequest.setQueryParameters({
                                  parm1: "value1",
@@ -69,13 +69,13 @@ sendRequest: function() {
 
     //POST1
     var url = "http://jsonplaceholder.typicode.com/posts";
-    var request = new MFPResourceRequest(url, MFPResourceRequest.POST, 90000);
+    var request = new MFPRequest(url, MFPRequest.POST, 90000);
     request.setHeaders({"Content-Type":"text/html","Larry-POST-Header":"LARRY POSTED TEXT"});
     request.send("sending some txt", success, failure);
   
     //POST2 with content-type set for json
     url = "http://jsonplaceholder.typicode.com/posts";
-    request = new MFPResourceRequest(url, MFPResourceRequest.POST);
+    request = new MFPRequest(url, MFPRequest.POST);
     request.setHeaders({"Content-Type":"application/json", "Larry-POST-Header":"POST JSON WITH CONTENT TYPE SET TO JSON"});
     request.send({
         title: 'foo',
@@ -85,7 +85,7 @@ sendRequest: function() {
 
     //POST3  content-type not set
     url = "http://jsonplaceholder.typicode.com/posts";
-    request = new MFPResourceRequest(url, MFPResourceRequest.POST);
+    request = new MFPRequest(url, MFPRequest.POST);
     request.setHeaders({"Larry-POST-Header":"POST JSON WITHOUT CONTENT TYPE"});
     request.send({
                  title: 'foo',
@@ -95,7 +95,7 @@ sendRequest: function() {
     
     //PUT
     url = "http://jsonplaceholder.typicode.com/posts/1";
-    request = new MFPResourceRequest(url, MFPResourceRequest.PUT, 50000);
+    request = new MFPRequest(url, MFPRequest.PUT, 50000);
     request.setHeaders({"Content-Type":"application/json","Larry-PUT-Header":"LARRY PUT JSON"});
 
     request.send({
@@ -106,7 +106,7 @@ sendRequest: function() {
 
     // GET
     url = "http://jsonplaceholder.typicode.com/posts";
-    request = new MFPResourceRequest(url, MFPResourceRequest.GET, 30000);
+    request = new MFPRequest(url, MFPRequest.GET, 30000);
     request.setHeaders({"Accept":"application/json","Larry-Header":"LARRY GET"});
 
     request.send( success, failure);
