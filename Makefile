@@ -5,8 +5,8 @@ all_droid:
 list:
 	cordova plugin list
 add:
-	cordova plugin add ../MFPCore
-	cordova plugin add ../MFPCore/tests
+	cordova plugin add ../test_cordova
+	cordova plugin add ../test_cordova/tests
 clean:
 	cordova plugin remove ibm-mfp-core
 	cordova plugin remove ibm-mfp-core-tests
