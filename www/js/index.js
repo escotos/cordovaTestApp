@@ -34,28 +34,35 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     sendRequest: function() {
+        BMSClient.initialize("http://escotos-core-test.mybluemix.net", "someGUID");
+        console.log("javascript-MFPRequest index.js - BMSClient initialized.");
+
+
         var success = function(response) {
-            console.log("javascript-MFPResourceRequest index.js - Success");
-            console.log("javascript-MFPResourceRequest index.js - response.httpStatus: " + response.httpStatus);
-            // console.log("javascript-MFPResourceRequest index.js - response.responseText: " + response.responseText);
-            console.log("javascript-MFPResourceRequest index.js - response.responseJSON: " + response.responseJSON);
-            console.log("javascript-MFPResourceRequest index.js - response.headers: "+ JSON.stringify(response.getAllHeaders()));
-            console.log("javascript-MFPResourceRequest index.js - response.errorCode: " + response.errorCode);
-            console.log("javascript-MFPResourceRequest index.js - response.errorDescription: " + response.errorDescription);
+            console.log("javascript-MFPRequest index.js - Success");
+            console.log("javascript-MFPRequest index.js - response as String: " + JSON.stringify(response));
         };
         var failure = function(response) {
-            console.error("javascript-MFPResourceRequest index.js = Failure");
-            console.error("javascript-MFPResourceRequest index.js - response.httpStatus: " + response.httpStatus);
-            // console.error("javascript-MFPResourceRequest index.js - response.responseText: " + response.responseText);
-            console.error("javascript-MFPResourceRequest index.js - response.responseJSON: " + response.responseJSON);
-            console.error("javascript-MFPResourceRequest index.js - response.headers: "+ response.getAllHeaders());
-            console.error("javascript-MFPResourceRequest index.js - response.errorCode: " + response.errorCode);
-            console.error("javascript-MFPResourceRequest index.js - response.errorDescription: " + response.errorDescription);
+            console.error("javascript-MFPRequest index.js = Failure");
+            console.log("javascript-MFPRequest index.js - response as String: " + JSON.stringify(response));
         };
         var method = document.getElementById("form_method");
-        var myrequest = new MFPResourceRequest(document.getElementById("form_url").value, method.options[method.selectedIndex].value);
+        var request = new MFPRequest(document.getElementById("form_url").value, method.options[method.selectedIndex].value);
 
-        myrequest.send(success, failure);
+        var headers = {
+            header1: ["val1"],
+            header2: ["val2", "val3"]
+            }
+
+        request.setHeaders(headers)
+
+        var queryParams = {
+            param1: "val1",
+            param2: "val2"
+        }
+        request.setQueryParameters(queryParams)
+
+        request.send(success, failure);
         alert("Request Sent");
     },
     onDeviceReady: function() {
