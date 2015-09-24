@@ -75,48 +75,41 @@ var app = {
     },
     sendRequest: function() {
         BMSClient.initialize("http://escotos-core-test.mybluemix.net", "someGUID");
+        
         console.log("JS.sendRequest() - BMSClient initialized.");
 
         var success = function(response) {
             console.log("JS.sendRequest() - Success");
             console.log("JS.sendRequest() - response as String: " + JSON.stringify(response));
             alert("Success");
-            alert("Response\n: " + JSON.stringify(response));
+            alert("Response\n: " + JSON.stringify(response, null, 2));
         };
+
         var failure = function(response) {
             console.error("JS.sendRequest() = Failure");
             console.log("JS.sendRequest() - response as String: " + JSON.stringify(response));
             alert("Failure");
-            alert("Response\n: " + JSON.stringify(response));
+            alert("Response\n: " + JSON.stringify(response, null, 2));
         };
 
-        // var request = new MFPRequest("http://jsonplaceholder.typicode.com/posts", MFPRequest.GET, 5000);
-        // request.send(success, failure);
-        // return;
-
+        //Retrieve Form Data
         var method = document.getElementById("form_method");
         method = method.options[method.selectedIndex].value;
         var url = document.getElementById("form_url").value;
         var timeout = document.getElementById("form_timeout").value;
         var body = document.getElementById("form_body").value;
 
+        //Create MFPRequest using native Bluemix SDKs
         var request = new MFPRequest(url, method, timeout);
 
         var headers = app.gatherHeaders();
-
-        console.log("Headers: " + headers);
-
         request.setHeaders(headers);
 
         var queryParams = app.gatherParameters();
-
-        console.log("queryParams: " + queryParams);
-
         request.setQueryParameters(queryParams);
 
-        console.log("Body value = " + body);
-
         request.send(body, success, failure);
+
         alert("Request Sent");
     },
     gatherHeaders: function() {
