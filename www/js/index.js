@@ -17,54 +17,136 @@
  * under the License.
  */
 var app = {
+    headers: 1,
+    parameters: 1,
+
     // Application Constructor
     initialize: function() {
         this.bindEvents();
     },
     // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         // document.addEventListener('deviceready', this.onDeviceReady, false);
-        document.getElementById("form_submit").addEventListener('click', this.sendRequest, false);
+        document.getElementById("button_add_header").addEventListener('click', this.AddHeaderRow, false);
+        document.getElementById("button_add_parameter").addEventListener('click', this.AddParameterRow, false);
+        document.getElementById("request_submit").addEventListener('click', this.sendRequest, false);
+    },
+    // Add a row before the Add Header row
+    AddHeaderRow: function() {
+        var target = document.getElementById("row_add_header");
+
+        //Create and insert the row - tr
+        var newRow = document.createElement('tr');
+        target.parentNode.insertBefore(newRow, target);
+
+        app.headers++;
+
+        //Create and insert our cells
+        newRow.insertCell(0);
+
+        var hName = newRow.insertCell(1);
+        hName.innerHTML = "<input id=\"form_header"+app.headers+"\" type=\"text\" name=\"header"+app.headers+"\" value=\"h name\" style=\"width: 100%\" />";
+
+        var hValue = newRow.insertCell(2);
+        hValue.innerHTML = "<input id=\"form_header"+app.headers+"v\" type=\"text\" name=\"header"+app.headers+"v\" value=\"h value\" style=\"width: 100px\" />";
+
+        return newRow;
+    },
+    // Add a row before the Add Parameter row
+    AddParameterRow: function() {
+        var target = document.getElementById("row_add_parameter");
+
+        //Create and insert the row - tr
+        var newRow = document.createElement('tr');
+        target.parentNode.insertBefore(newRow, target);
+
+        app.parameters++;
+
+        //Create and insert our cells
+        newRow.insertCell(0);
+
+        var hName = newRow.insertCell(1);
+        hName.innerHTML = "<input id=\"form_param"+app.parameters+"\" type=\"text\" name=\"param"+app.parameters+"\" value=\"p name\" style=\"width: 100%\" />";
+
+        var hValue = newRow.insertCell(2);
+        hValue.innerHTML = "<input id=\"form_param"+app.parameters+"v\" type=\"text\" name=\"param"+app.parameters+"v\" value=\"p value\" style=\"width: 100px\" />";
+
+        return newRow;
+    },
+    sendRequest: function() {
+        BMSClient.initialize("http://escotos-core-test.mybluemix.net", "someGUID");
+        console.log("JS.sendRequest() - BMSClient initialized.");
+
+        var success = function(response) {
+            console.log("JS.sendRequest() - Success");
+            console.log("JS.sendRequest() - response as String: " + JSON.stringify(response));
+            alert("Success");
+            alert("Response\n: " + JSON.stringify(response));
+        };
+        var failure = function(response) {
+            console.error("JS.sendRequest() = Failure");
+            console.log("JS.sendRequest() - response as String: " + JSON.stringify(response));
+            alert("Failure");
+            alert("Response\n: " + JSON.stringify(response));
+        };
+
+        // var request = new MFPRequest("http://jsonplaceholder.typicode.com/posts", MFPRequest.GET, 5000);
+        // request.send(success, failure);
+        // return;
+
+        var method = document.getElementById("form_method");
+        method = method.options[method.selectedIndex].value;
+        var url = document.getElementById("form_url").value;
+        var timeout = document.getElementById("form_timeout").value;
+        var body = document.getElementById("form_body").value;
+
+        var request = new MFPRequest(url, method, timeout);
+
+        var headers = app.gatherHeaders();
+
+        console.log("Headers: " + headers);
+
+        request.setHeaders(headers);
+
+        var queryParams = app.gatherParameters();
+
+        console.log("queryParams: " + queryParams);
+
+        request.setQueryParameters(queryParams);
+
+        console.log("Body value = " + body);
+
+        request.send(body, success, failure);
+        alert("Request Sent");
+    },
+    gatherHeaders: function() {
+        var newheaders = {};
+        for(var i = 1; i <= app.headers; i++) {
+            var currentHeader = document.getElementById("form_header"+i).value;
+            if(currentHeader) {
+                var currentHeaderValue = document.getElementById("form_header"+i+"v").value;
+                newheaders[currentHeader] = [currentHeaderValue];
+            }
+        }
+
+        return newheaders;
+    },
+    gatherParameters: function() {
+        var newparameters = {};
+        for(var i = 1; i <= app.parameters; i++) {
+            var currentParameter = document.getElementById("form_param"+i).value;
+            if(currentParameter) {
+                var currentParameterValue = document.getElementById("form_param"+i+"v").value;
+                newparameters[currentParameter] = currentParameterValue;
+            }
+        }
+
+        return newparameters;
     },
     // deviceready Event Handler
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
-    sendRequest: function() {
-        BMSClient.initialize("http://escotos-core-test.mybluemix.net", "someGUID");
-        console.log("javascript-MFPRequest index.js - BMSClient initialized.");
-
-
-        var success = function(response) {
-            console.log("javascript-MFPRequest index.js - Success");
-            console.log("javascript-MFPRequest index.js - response as String: " + JSON.stringify(response));
-        };
-        var failure = function(response) {
-            console.error("javascript-MFPRequest index.js = Failure");
-            console.log("javascript-MFPRequest index.js - response as String: " + JSON.stringify(response));
-        };
-        var method = document.getElementById("form_method");
-        var request = new MFPRequest(document.getElementById("form_url").value, method.options[method.selectedIndex].value);
-
-        var headers = {
-            header1: ["val1"],
-            header2: ["val2", "val3"]
-            }
-
-        request.setHeaders(headers)
-
-        var queryParams = {
-            param1: "val1",
-            param2: "val2"
-        }
-        request.setQueryParameters(queryParams)
-
-        request.send(success, failure);
-        alert("Request Sent");
-    },
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
     },

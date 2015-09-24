@@ -33,25 +33,87 @@
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
+        <title>Hello Bluemix Request</title>
     </head>
     <body>
         <div class="app">
-            <h1>
-                Type desired URL:
-                <br />
-                    <input id="form_url" type="text" name="url" value="http://escotos-core-test.mybluemix.net/testget" />
-                <br />
-                    <select id="form_method">
+            <table id="form_request">
+              <tr>
+                <th colspan="3" align="center">HTTP Request with Cordova</th>
+              </tr>
+
+              <tr><td colspan="3">&nbsp;</td></tr>
+
+              <tr>
+                <td align="left">HTTP URL</td>
+
+                <td colspan="2" width="100%" align="left">
+                    <input id="form_url" type="text" name="url" value="http://escotos-core-test.mybluemix.net/testget" style="width:200px;" />
+                    <!-- <input id="form_url" type="text" name="url" value="http://jsonplaceholder.typicode.com/posts" /> -->
+                </td>
+              </tr>
+
+              <tr>
+                <td align="left">Method</td>
+                <td colspan="2" align="left">
+                    <select id="form_method" style="width: 100px">
                           <option value="GET">Get</option>
                           <option value="POST">Post</option>
+                          <option value="PUT">Put</option>
+                          <option value="DELETE">Delete</option>
+                          <option value="TRACE">Trace</option>
+                          <option value="HEAD">Head</option>
+                          <option value="OPTIONS">Options</option>
                     </select>
-                    <input id="form_submit" type="submit" />
-            </h1>
-<!--             <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div> -->
+                </td>
+              </tr>
+
+                <tr>
+                    <td align="left">Timeout</td>
+                    <td style="width: 100px"><input id="form_timeout" type="text" name="timeout" value="5000" style="width: 100%" /></td>
+                    <td>milliseconds</td>
+                </tr>
+
+              <tr><td colspan="3" style="border-bottom: 1px solid #999999;"></td></tr>
+
+              <tr>
+                <td align="left">Headers</td>
+                <td style="width: 100px"><input id="form_header1" type="text" name="header1" value="Content-Type" style="width: 100%" /></td>
+                <td><input id="form_header1v" type="text" name="header1v" value="text/html" style="width: 100px" /></td>
+              </tr>
+
+              <tr id="row_add_header">
+                <td>&nbsp;</td>
+                <td colspan="2" align="center"><input id="button_add_header" type="submit" value="Add a header" style="width: 100%"></td>
+              </tr>
+
+              <tr><td colspan="3" style="border-bottom: 1px solid #999999;"></td></tr>
+
+              <tr>
+                <td align="left">Parameters</td>
+                <td style="width: 100px"><input id="form_param1" type="text" name="param1" value="name" style="width: 100%" /></td>
+                <td><input id="form_param1v" type="text" name="param1v" value="value" style="width: 100px" /></td>
+              </tr>
+
+              <tr id="row_add_parameter">
+                <td>&nbsp;</td>
+                <td colspan="2" align="center"><input id="button_add_parameter" type="submit" value="Add a Parameter" style="width: 100%"></td>
+              </tr>
+
+              <tr><td colspan="3" style="border-bottom: 1px solid #999999;"></td></tr>
+
+              <tr>
+                <td align="left">Body</td>
+                <td colspan="2" rowspan="2"><textarea rows="4" cols="40" id="form_body">Body Text</textarea></td>
+              </tr>
+              <tr>
+                <td></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td colspan="2" align="left"><input type="submit" id="request_submit" /></td>
+              </tr>
+            </table>
         </div>
 
         <script type="text/javascript" src="cordova.js"></script>
