@@ -26,10 +26,52 @@ var app = {
     },
     // Bind Event Listeners
     bindEvents: function() {
-        // document.addEventListener('deviceready', this.onDeviceReady, false);
         document.getElementById("button_add_header").addEventListener('click', this.AddHeaderRow, false);
         document.getElementById("button_add_parameter").addEventListener('click', this.AddParameterRow, false);
         document.getElementById("request_submit").addEventListener('click', this.sendRequest, false);
+    },
+    sendRequest: function() {
+        BMSClient.initialize("http://escotos-core-test.mybluemix.net", "someGUID");
+        
+        console.log("JS.sendRequest() - BMSClient initialized.");
+
+        var success = function(response) {
+            console.log("JS.sendRequest() - Success");
+            console.log("JS.sendRequest() - response as String: " + JSON.stringify(response));
+            alert("Success");
+            alert("Response\n: " + JSON.stringify(response, null, 2));
+        };
+
+        var failure = function(response) {
+            console.error("JS.sendRequest() = Failure");
+            console.log("JS.sendRequest() - response as String: " + JSON.stringify(response));
+            alert("Failure");
+            alert("Response\n: " + JSON.stringify(response, null, 2));
+        };
+
+        //Retrieve Form Data
+        var method = document.getElementById("form_method");
+        method = method.options[method.selectedIndex].value;
+        var url = document.getElementById("form_url").value;
+        var timeout = document.getElementById("form_timeout").value;
+        var body = document.getElementById("form_body").value;
+
+        //Create MFPRequest using native Bluemix SDKs
+        var request = new MFPRequest(url, method, timeout);
+
+        var headers = app.gatherHeaders();
+        request.setHeaders(headers);
+
+        var queryParams = app.gatherParameters();
+        request.setQueryParameters(queryParams);
+
+        if (body) {
+            request.send(body, success, failure);
+        } else {
+            request.send(success, failure);
+        }
+
+        alert("Request Sent");
     },
     // Add a row before the Add Header row
     AddHeaderRow: function() {
@@ -72,45 +114,6 @@ var app = {
         hValue.innerHTML = "<input id=\"form_param"+app.parameters+"v\" type=\"text\" name=\"param"+app.parameters+"v\" value=\"p value\" style=\"width: 100px\" />";
 
         return newRow;
-    },
-    sendRequest: function() {
-        BMSClient.initialize("http://escotos-core-test.mybluemix.net", "someGUID");
-        
-        console.log("JS.sendRequest() - BMSClient initialized.");
-
-        var success = function(response) {
-            console.log("JS.sendRequest() - Success");
-            console.log("JS.sendRequest() - response as String: " + JSON.stringify(response));
-            alert("Success");
-            alert("Response\n: " + JSON.stringify(response, null, 2));
-        };
-
-        var failure = function(response) {
-            console.error("JS.sendRequest() = Failure");
-            console.log("JS.sendRequest() - response as String: " + JSON.stringify(response));
-            alert("Failure");
-            alert("Response\n: " + JSON.stringify(response, null, 2));
-        };
-
-        //Retrieve Form Data
-        var method = document.getElementById("form_method");
-        method = method.options[method.selectedIndex].value;
-        var url = document.getElementById("form_url").value;
-        var timeout = document.getElementById("form_timeout").value;
-        var body = document.getElementById("form_body").value;
-
-        //Create MFPRequest using native Bluemix SDKs
-        var request = new MFPRequest(url, method, timeout);
-
-        var headers = app.gatherHeaders();
-        request.setHeaders(headers);
-
-        var queryParams = app.gatherParameters();
-        request.setQueryParameters(queryParams);
-
-        request.send(body, success, failure);
-
-        alert("Request Sent");
     },
     gatherHeaders: function() {
         var newheaders = {};
