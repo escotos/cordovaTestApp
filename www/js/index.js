@@ -27,7 +27,8 @@ initialize: function() {
     // 'load', 'deviceready', 'offline', and 'online'.
 bindEvents: function() {
     // document.addEventListener('deviceready', this.onDeviceReady, false);
-    document.getElementById("form_submit").addEventListener('click', this.sendRequest, false);
+    //document.getElementById("form_submit").addEventListener('click', this.sendRequest, false);
+    document.getElementById("form_submit").addEventListener('click', this.testLogger, false);
 },
     // deviceready Event Handler
     //
@@ -115,6 +116,55 @@ sendRequest: function() {
     
 
 },
+
+testLogger: function(){
+    //BEGIN LEN DEBUG
+    var success = function(response) {
+        console.log("********** javascript-MFPLogger From index.js = Success: " + JSON.stringify(response));
+    };
+    var failure = function(response) {
+        console.error("********** javascript-MFPLogger From index.js = Failure: " + JSON.stringify(response));
+    };
+
+    MFPLogger.setCapture(true);
+    var isCaptureSet = MFPLogger.getCapture();
+
+    var debugLogger = MFPLogger.getInstance("debugLogger");
+    var infoLogger  = MFPLogger.getInstance("infoLogger");
+    var warnLogger  = MFPLogger.getInstance("warnLogger");
+    var errorLogger = MFPLogger.getInstance("errorLogger");
+    var fatalLogger = MFPLogger.getInstance("fatalLogger");
+    
+    var filter = {
+        "debugLogger": "DEBUG",
+        "infoLogger":  "INFO",
+        "warnLogger":  "WARN",
+        "errorLogger": "ERROR",
+        "fatalLogger": "FATAL"
+    };
+
+    MFPLogger.setFilters(filter);
+    var filtersActual = MFPLogger.getFilters(success);
+
+    MFPLogger.setMaxStoreSize(8192);
+    var maxStoreSize = MFPLogger.getMaxStoreSize();
+
+    MFPLogger.setLevel("WARN");
+    var actualLogLevel = MFPLogger.getLevel(success);
+
+    // NOTE: send() will reset is isUncaughtExceptionDetected to false
+    var isExceptionDetected = MFPLogger.isUncaughtExceptionDetected(success);
+
+    debugLogger.debug("Warning Warning Warning");
+    infoLogger.info("info info info");
+    warnLogger.warn("warn warn warn");
+    errorLogger.error("error error error");
+    fatalLogger.fatal("fatal fatal fatal");
+    
+    MFPLogger.send( success, failure );
+    //END LEN DEBUG
+},
+
 onDeviceReady: function() {
     app.receivedEvent('deviceready');
 },
