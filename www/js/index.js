@@ -118,7 +118,35 @@ sendRequest: function() {
 },
 
 testLogger: function(){
+
     //BEGIN LEN DEBUG
+    var clientSuccess = function(response) {
+        MFPLogger.setLevel("DEBUG")
+        MFPLogger.setCapture(true);
+        var isCaptureSet = MFPLogger.getCapture();
+        console.log("********** javascript-ClientSuccess From index.js = Success: " + JSON.stringify(response));
+    };
+    var clientFailure = function(response) {
+        console.error("********** javascript-ClientFailure From index.js = Failure: " + JSON.stringify(response));
+    };
+
+    // TRY THE CLIENT
+    // STAGE1 APP ROUTE:
+    var stage1route = "https://AusHackDayLarry.stage1.mybluemix.net";
+
+    // STAGE1 APP GUID:
+    var stage1guid = "4a24d08e-59c1-4c41-8e90-457431d0d883";
+
+    BMSClient.initialize(stage1route, stage1guid);
+
+    var route = BMSClient.getBluemixAppRoute(function(route) {
+        console.error("javascript-BMSClient From index.js = ROUTE: " + route)
+    });
+    var guid = BMSClient.getBluemixAppGUID(function(guid) {
+        console.error("javascript-BMSClient From index.js = GUID: " + guid)
+    });
+
+
     var success = function(response) {
         console.log("********** javascript-MFPLogger From index.js = Success: " + JSON.stringify(response));
     };
@@ -126,8 +154,6 @@ testLogger: function(){
         console.error("********** javascript-MFPLogger From index.js = Failure: " + JSON.stringify(response));
     };
 
-    MFPLogger.setCapture(true);
-    var isCaptureSet = MFPLogger.getCapture();
 
     var debugLogger = MFPLogger.getInstance("debugLogger");
     var infoLogger  = MFPLogger.getInstance("infoLogger");
