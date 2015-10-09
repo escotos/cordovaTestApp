@@ -121,7 +121,7 @@ testLogger: function(){
 
     //BEGIN LEN DEBUG
     var clientSuccess = function(response) {
-        MFPLogger.setLevel("DEBUG")
+        MFPLogger.setLevel(500)
         MFPLogger.setCapture(true);
         var isCaptureSet = MFPLogger.getCapture();
         console.log("********** javascript-ClientSuccess From index.js = Success: " + JSON.stringify(response));
@@ -162,11 +162,11 @@ testLogger: function(){
     var fatalLogger = MFPLogger.getInstance("fatalLogger");
     
     var filter = {
-        "debugLogger": "DEBUG",
-        "infoLogger":  "INFO",
-        "warnLogger":  "WARN",
-        "errorLogger": "ERROR",
-        "fatalLogger": "FATAL"
+        "debugLogger": 500,
+        "infoLogger":  300,
+        "warnLogger":  200,
+        "errorLogger": 100,
+        "fatalLogger": 50
     };
 
     MFPLogger.setFilters(filter);
@@ -175,7 +175,7 @@ testLogger: function(){
     MFPLogger.setMaxStoreSize(8192);
     var maxStoreSize = MFPLogger.getMaxStoreSize();
 
-    MFPLogger.setLevel("WARN");
+    MFPLogger.setLevel(500);
     var actualLogLevel = MFPLogger.getLevel(success);
 
     // NOTE: send() will reset is isUncaughtExceptionDetected to false
