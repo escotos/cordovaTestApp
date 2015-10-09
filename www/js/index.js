@@ -155,7 +155,7 @@ testLogger: function(){
     // NOTE: send() will reset is isUncaughtExceptionDetected to false
     var isExceptionDetected = MFPLogger.isUncaughtExceptionDetected(success);
 
-    debugLogger.debug("Warning Warning Warning");
+    debugLogger.debug("debug debug debug");
     infoLogger.info("info info info");
     warnLogger.warn("warn warn warn");
     errorLogger.error("error error error");
