@@ -132,10 +132,10 @@ testLogger: function(){
 
     // TRY THE CLIENT
     // STAGE1 APP ROUTE:
-    var stage1route = "https://AusHackDayLarry.stage1.mybluemix.net";
+    var stage1route = "http://s1-imf-dev-hackdayapp-larry.stage1.mybluemix.net/";
 
-    // STAGE1 APP GUID:
-    var stage1guid = "4a24d08e-59c1-4c41-8e90-457431d0d883";
+    // STAGE1 APP GUID:85e0e3f3-882b-46d6-b5e5-645ca05f80a4
+    var stage1guid = "85e0e3f3-882b-46d6-b5e5-645ca05f80a4";
 
     BMSClient.initialize(stage1route, stage1guid);
 
