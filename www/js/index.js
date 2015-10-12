@@ -132,12 +132,14 @@ testLogger: function(){
 
     // TRY THE CLIENT
     // STAGE1 APP ROUTE:
-    var stage1route = "http://s1-imf-dev-hackdayapp-larry.stage1.mybluemix.net/";
+    //var route = "http://s1-imf-dev-hackdayapp-larry.stage1.mybluemix.net?subzone=dev";
+    var route = "http://mfptestbedapp.stage1.mybluemix.net";
+    
 
     // STAGE1 APP GUID:85e0e3f3-882b-46d6-b5e5-645ca05f80a4
-    var stage1guid = "85e0e3f3-882b-46d6-b5e5-645ca05f80a4";
-
-    BMSClient.initialize(stage1route, stage1guid);
+    //var stage1guid = "85e0e3f3-882b-46d6-b5e5-645ca05f80a4";
+    var guid = "5cf325a3-d325-4fb2-b4ca-1d8e46831c86";
+    BMSClient.initialize(route, guid);
 
     var route = BMSClient.getBluemixAppRoute(function(route) {
         console.error("javascript-BMSClient From index.js = ROUTE: " + route)
