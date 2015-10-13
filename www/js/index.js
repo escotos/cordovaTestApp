@@ -123,7 +123,8 @@ testLogger: function(){
     var clientSuccess = function(response) {
         MFPLogger.setLevel(500)
         MFPLogger.setCapture(true);
-        var isCaptureSet = MFPLogger.getCapture();
+        MFPLogger.getCapture(function(isCaptureSet){
+                             alert("IN clientSuccess Callback, Capture is:" + isCaptureSet)});
         console.log("********** javascript-ClientSuccess From index.js = Success: " + JSON.stringify(response));
     };
     var clientFailure = function(response) {
@@ -163,25 +164,61 @@ testLogger: function(){
     var errorLogger = MFPLogger.getInstance("errorLogger");
     var fatalLogger = MFPLogger.getInstance("fatalLogger");
     
-    var filter = {
+
+    
+
+    //SET AND TEST CAPTURE
+    var captureCallback = function(isCaptureSet){
+        alert("Capture is: " + isCaptureSet);
+    }
+    
+    MFPLogger.setCapture(false);
+    //var isCaptureSet = MFPLogger.getCapture(captureCallback);
+    
+    MFPLogger.setCapture(true);
+    //isCaptureSet = MFPLogger.getCapture(captureCallback);
+
+    var filters = {
         "debugLogger": 500,
         "infoLogger":  300,
         "warnLogger":  200,
         "errorLogger": 100,
         "fatalLogger": 50
     };
+    
+    MFPLogger.setFilters(filters);
+    MFPLogger.getFilters(function(filters){
+        alert("The filters object is: " + JSON.stringify(filters,null, 2));
+    });
 
-    MFPLogger.setFilters(filter);
-    var filtersActual = MFPLogger.getFilters(success);
+    MFPLogger.setMaxStoreSize("65535");
 
-    MFPLogger.setMaxStoreSize(8192);
-    var maxStoreSize = MFPLogger.getMaxStoreSize();
+    MFPLogger.getMaxStoreSize(function(maxStoreSize){
+        alert("MaxStoreSize: " + maxStoreSize);
+    });
+
+    //MFPLogger.setLevel(500);
+    
+    //MFPLogger.getLevel(function(logLevel){
+    //    alert("LogLevel is: " + logLevel);
+    //});
+    
+    //MFPLogger.setLevel(300);
+    
+    //MFPLogger.getLevel(function(logLevel){
+    //    alert("LogLevel is: " + logLevel);
+    //});
 
     MFPLogger.setLevel(500);
-    var actualLogLevel = MFPLogger.getLevel(success);
-
+    
+    //MFPLogger.getLevel(function(logLevel){
+    //    alert("LogLevel is: " + logLevel);
+    //});
+    
     // NOTE: send() will reset is isUncaughtExceptionDetected to false
-    var isExceptionDetected = MFPLogger.isUncaughtExceptionDetected(success);
+    MFPLogger.isUncaughtExceptionDetected(function(isExceptionDetected){
+        alert(isExceptionDetected);
+    });
 
     debugLogger.debug("debug debug debug");
     infoLogger.info("info info info");
