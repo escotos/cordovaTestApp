@@ -170,7 +170,7 @@ testLogger: function(){
     //SET AND TEST CAPTURE
     var captureCallback = function(isCaptureSet){
         alert("Capture is: " + isCaptureSet);
-    }
+    };
     
     MFPLogger.setCapture(false);
     //var isCaptureSet = MFPLogger.getCapture(captureCallback);
@@ -179,11 +179,11 @@ testLogger: function(){
     //isCaptureSet = MFPLogger.getCapture(captureCallback);
 
     var filters = {
-        "debugLogger": 500,
-        "infoLogger":  300,
-        "warnLogger":  200,
-        "errorLogger": 100,
-        "fatalLogger": 50
+        "debugLogger": MFPLogger.DEBUG,
+        "infoLogger":  MFPLogger.INFO,
+        "warnLogger":  MFPLogger.WARN,
+        "errorLogger": MFPLogger.ERROR,
+        "fatalLogger": MFPLogger.FATAL
     };
     
     MFPLogger.setFilters(filters);
@@ -209,7 +209,7 @@ testLogger: function(){
     //    alert("LogLevel is: " + logLevel);
     //});
 
-    MFPLogger.setLevel(500);
+    MFPLogger.setLevel(MFPLogger.ERROR); //ERROR LEVEL
     
     //MFPLogger.getLevel(function(logLevel){
     //    alert("LogLevel is: " + logLevel);
